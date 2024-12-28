@@ -12,7 +12,7 @@ const signupLogin ={
                 const newobj = {
                     ...req.body,
                     password:newpassword
-                };
+                }
                 await Users.create(newobj);
                 res.status(201).send({message:'Signup Successfully'})
 

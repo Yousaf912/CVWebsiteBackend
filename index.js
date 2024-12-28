@@ -11,7 +11,8 @@ const corsoption ={
     origin : 'http://localhost:5173',
     methods:['POST','PUT','DELETE','GET'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true, 
+    credentials: true,
+    optionsSuccessStatus: 200,
 }
 
 
