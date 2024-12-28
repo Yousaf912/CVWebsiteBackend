@@ -4,11 +4,13 @@ const bcrypt = require ("bcrypt")
 const signupLogin ={
     signup:async(req,res)=>{
         try{
+          console.log('working');
+          
             const userExist =await Users.findOne({email:req.body.email});
             if(userExist){
                 res.status(400).send({message:'This email is already registered'})
             }else{
-                const newpassword = await bcrypt.hash(req.body.password,20);
+                const newpassword = await bcrypt.hash(req.body.password,20)
                 const newobj = {
                     ...req.body,
                     password:newpassword
@@ -17,7 +19,9 @@ const signupLogin ={
                 res.status(201).send({message:'Signup Successfully'})
 
             }
-        }catch(er){throw er}
+        }catch(er){
+            res.status(400).send(er)
+        }
     }
 }
 
