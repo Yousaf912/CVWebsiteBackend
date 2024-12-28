@@ -4,8 +4,6 @@ const bcrypt = require ("bcrypt")
 const signupLogin ={
     signup:async(req,res)=>{
         try{
-          console.log('working');
-          
             const userExist =await Users.findOne({email:req.body.email});
             if(userExist){
                 res.status(400).send({message:'This email is already registered'})

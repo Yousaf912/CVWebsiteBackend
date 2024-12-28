@@ -8,7 +8,7 @@ const port = process.env.SERVER_PORT;
 const cors = require("cors");
 
 const corsoption ={
-    origion : 'http://localhost:5173/',
+    origin : 'http://localhost:5173',
     methods:['POST','PUT','DELETE','GET'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, 
@@ -22,7 +22,7 @@ App.use('/', router)
 mongoose.connect(mongourl).then(()=>{
     console.log('mongodb is connected');
     App.listen(3000, () => {
-        console.log('app is running on this port ')
+        console.log(`app is running on this port 3000`)
     
     })
 }).catch((er)=>{
