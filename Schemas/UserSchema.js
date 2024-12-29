@@ -1,24 +1,33 @@
-const mongose = require("mongoose");
-const UserSchema = new mongose.Schema({
-    name:{
-        type:String,
-        required:[true,'Name is required'],
-        minlength:[3,'Minimum length of anme should be 3'],
-        maxlength:[15,'name can be 10 cracter long']
-    },
-    email:{
-        type:String,
-        required:[true,'email is mendatory'],
-        match:[/\S+@\S+\.\S+/, 'please provide valid email address']
-    },
-    password:{
-        type:String,
-        required:[true,'please create password'],
-        minlength:[8,'minimum length of password sould be 8'],
-        maxlength:[12,'password can not be 12 cracters long']
-    },
-    
-})
+const mongoose = require("mongoose");
 
-const Users = mongose.model('Users',UserSchema);
-module.exports = Users;
+const UserSchema = new mongoose.Schema({
+   
+    name: {
+        type: String,
+        required: [true, 'Name is required'],
+        minlength: [3, 'Name must be atleast 3 character long'],
+        maxlength: [25, 'Name cannot be 10 cracter long']
+    },
+    email: {
+        type: String,
+        required: [true, 'Email is required'],
+        match: [/\S+@\S+\.\S+/, 'please provide valid email address']
+    },
+    password: {
+        type: String,
+        required: true,
+        minlength: [6, 'Password must be at least 6 characters long'],
+        validate: {
+          validator: function(v) {
+            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).+$/;
+            return regex.test(v);
+          },
+          message: 'Password must contain at least one lowercase letter, one uppercase letter, and one special character'
+        }
+      }
+  
+});
+
+const User = mongoose.model('Users', UserSchema);
+module.exports = User;
+
