@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const User = require("../../../Schemas/UserSchema");
 const personalinfosch = require("../../../Schemas/PersonalInfoSchema");
 const education = require("../../../Schemas/educationSchema");
+const experience = require("../../../Schemas/experience");
+const skill = require("../../../Schemas/SkillSchema");
 const key = process.env.SECURITY_KEY;
 
 const makeResume = {
@@ -95,7 +97,62 @@ const makeResume = {
             }
             res.status(500).send({ message: 'Internal server error', error: err.message });
         }
-    }
+    },
+
+    AddExperience:async(req,res)=>{
+        try{
+            const id = req.params.userid;
+            const data = await req.body;
+            const userExist = await User.findById({_id:id});
+            
+            if(userExist){
+                if(userExist.experience == 5){
+                    res.status(400).send({message:'data can not be exceed more than 5'})
+                }else{
+                    const newinstant = await new experience(data);
+                    const eror = await newinstant.validateSync();
+                    if(eror){
+                        res.status(400).send({message:'validation eror',eror})
+                    }else{
+                        await User.updateOne({_id:id},{
+                            $push:{"experience":data}
+                        })
+                        res.status(201).send({message:'added'})
+                    }
+                }
+            }
+
+        }catch(er){throw er}
+    },
+
+
+    AddSkill:async(req,res)=>{
+        try{
+            const id = req.params.userid;
+            const data = await req.body;
+            const userExist = await User.findById({_id:id});
+            
+            if(userExist){
+                if(userExist.skills.length == 5){
+                    res.status(400).send({message:'data can not be exceed more than 5'})
+                }else{
+                    const newinstant = await new skill(data);
+                    const eror = await newinstant.validateSync();
+                    if(eror){
+                        res.status(400).send({message:'validation eror',eror})
+                    }else{
+                        await User.updateOne({_id:id},{
+                            $push:{"skills":data}
+                        })
+                        res.status(201).send({message:'added'})
+                    }
+                }
+            }
+
+        }catch(er){throw er}
+    },
+
+
 }
 
 module.exports = makeResume;

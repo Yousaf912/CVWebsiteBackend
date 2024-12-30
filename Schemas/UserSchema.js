@@ -39,7 +39,17 @@ const UserSchema = new mongoose.Schema({
     type:[],
     required:true,
     default:[]
-  }
+  },
+  experience:{
+    type:[],
+    required:true,
+    default:[]
+  },
+  skills:{
+    type:[],
+    required:true,
+    default:[]
+  },
 
 });
 
