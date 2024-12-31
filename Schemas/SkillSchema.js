@@ -13,7 +13,7 @@ const SkillSchema = new mongose.Schema({
     description:{
         type:String,
         required:[true,'Please tell about your skill'],
-        maxlength:[50,'description can not be more than 50']
+        maxlength:[150,'description can not be more than 150']
     }
 })
 

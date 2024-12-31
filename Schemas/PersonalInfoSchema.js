@@ -49,6 +49,11 @@ const PersonalInfoSchema = new mongoose.Schema({
     website: {
         type: String,
         required: false
+    },
+    description:{
+        type: String,
+        required:[true,'please describe yourself'],
+        maxlength:[210,'description can not be more than 210']
     }
 });
 

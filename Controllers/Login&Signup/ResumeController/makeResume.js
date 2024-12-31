@@ -106,8 +106,8 @@ const makeResume = {
             const userExist = await User.findById({_id:id});
             
             if(userExist){
-                if(userExist.experience == 5){
-                    res.status(400).send({message:'data can not be exceed more than 5'})
+                if(userExist.experience == 4){
+                    res.status(400).send({message:'data can not be exc,eed more than 4'})
                 }else{
                     const newinstant = await new experience(data);
                     const eror = await newinstant.validateSync();
@@ -152,6 +152,16 @@ const makeResume = {
         }catch(er){throw er}
     },
 
+    getAllData:async(req,res)=>{
+        try{
+            const id = req.params.userid;
+            const userdata = await User.findOne({_id:id});
+            if(userdata){
+                res.status(201).send({userdata});
+            }
+
+        }catch(er){throw er}
+    }
 
 }
 

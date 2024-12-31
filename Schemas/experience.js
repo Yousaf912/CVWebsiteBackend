@@ -14,7 +14,7 @@ const ExperienceSchema = new mongose.Schema({
     address: {
         type: String,
         required: [true, 'Please type office address'],
-        maxlength: [30, 'address can be more than 30']
+        maxlength: [60, 'address can be more than 60']
     },
     startingDate: {
         type: String,
