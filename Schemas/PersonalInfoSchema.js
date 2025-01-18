@@ -58,7 +58,7 @@ const PersonalInfoSchema = new mongoose.Schema({
     secdescription:{
         type: String,
         required:[true,'Description is required'],
-        maxlength:[700,'discription can not be more than 700']
+        maxlength:[300,'discription can not be more than 300']
     }
 });
 
