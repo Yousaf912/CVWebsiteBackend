@@ -71,7 +71,7 @@ const makeResume = {
             } else {
                 const user = await User.findOne({ _id: id });
                 console.log(user.education.length);
-                
+
                 if (user.education.length == 4) {
                     res.status(200).send({ message: 'only 4 education can be added' })
                 } else {
@@ -81,7 +81,7 @@ const makeResume = {
                         res.status(400).send({ message: 'this degree is already added' })
                     }
                     else {
-                        
+
                         await User.updateOne({ _id: id }, {
                             $push: { "education": data }
                         })
@@ -99,69 +99,147 @@ const makeResume = {
         }
     },
 
-    AddExperience:async(req,res)=>{
-        try{
+    AddExperience: async (req, res) => {
+        try {
             const id = req.params.userid;
             const data = await req.body;
-            const userExist = await User.findById({_id:id});
-            
-            if(userExist){
-                if(userExist.experience == 4){
-                    res.status(400).send({message:'data can not be exc,eed more than 4'})
-                }else{
+            const userExist = await User.findById({ _id: id });
+
+            if (userExist) {
+                if (userExist.experience == 4) {
+                    res.status(400).send({ message: 'data can not be exc,eed more than 4' })
+                } else {
                     const newinstant = await new experience(data);
                     const eror = await newinstant.validateSync();
-                    if(eror){
-                        res.status(400).send({message:'validation eror',eror})
-                    }else{
-                        await User.updateOne({_id:id},{
-                            $push:{"experience":data}
+                    if (eror) {
+                        res.status(400).send({ message: 'validation eror', eror })
+                    } else {
+                        await User.updateOne({ _id: id }, {
+                            $push: { "experience": data }
                         })
-                        res.status(201).send({message:'added'})
+                        res.status(201).send({ message: 'added' })
                     }
                 }
             }
 
-        }catch(er){throw er}
+        } catch (er) { throw er }
     },
 
 
-    AddSkill:async(req,res)=>{
-        try{
+    AddSkill: async (req, res) => {
+        try {
             const id = req.params.userid;
             const data = await req.body;
-            const userExist = await User.findById({_id:id});
-            
-            if(userExist){
-                if(userExist.skills.length == 5){
-                    res.status(400).send({message:'data can not be exceed more than 5'})
-                }else{
+            const userExist = await User.findById({ _id: id });
+
+            if (userExist) {
+                if (userExist.skills.length == 5) {
+                    res.status(400).send({ message: 'data can not be exceed more than 5' })
+                } else {
                     const newinstant = await new skill(data);
                     const eror = await newinstant.validateSync();
-                    if(eror){
-                        res.status(400).send({message:'validation eror',eror})
-                    }else{
-                        await User.updateOne({_id:id},{
-                            $push:{"skills":data}
+                    if (eror) {
+                        res.status(400).send({ message: 'validation eror', eror })
+                    } else {
+                        await User.updateOne({ _id: id }, {
+                            $push: { "skills": data }
                         })
-                        res.status(201).send({message:'added'})
+                        res.status(201).send({ message: 'added' })
                     }
                 }
             }
 
-        }catch(er){throw er}
+        } catch (er) { throw er }
     },
 
-    getAllData:async(req,res)=>{
-        try{
+    getAllData: async (req, res) => {
+        try {
             const id = req.params.userid;
-            const userdata = await User.findOne({_id:id});
-            if(userdata){
-                res.status(201).send({userdata});
+            const userdata = await User.findOne({ _id: id });
+            if (userdata) {
+                res.status(201).send({ userdata });
             }
 
-        }catch(er){throw er}
-    }
+        } catch (er) { throw er }
+    },
+
+    editeducation: async (req, res) => {
+        try {
+            const userid = req.params.userid;
+            const objectid = req.params.objectid;
+            const dat = await req.body;
+            console.log(dat);
+
+            const newinstant = await new education(dat);
+            const eror = await newinstant.validateSync();
+            if (eror) {
+                res.status(400).send({ message: 'validation eror', eror })
+            } else {
+                const data = await User.findById({
+                    _id: userid
+                });
+                const education = data.education[objectid] = req.body
+                await data.save();
+                res.status(201).send({ message: 'edited' })
+            }
+
+        } catch (er) { res.status(501).send({ er }) }
+    },
+
+    deleteeducation: async (req, res) => {
+        try {
+            const id = req.params.userid;
+            const objectid = req.params.objectid;
+
+            const data = await User.findById({ _id: id });
+            if (data) {
+                const education = await data.education;
+                education.splice(objectid, 1);
+                await data.save();
+                res.status(201).send({message:'education is deleted'})
+            }
+
+        } catch (er) { throw er }
+    },
+
+
+    editexperience: async (req, res) => {
+        try {
+            const userid = req.params.userid;
+            const objectid = req.params.objectid;
+            const dat = await req.body;
+            const newinstant = await new experience(dat);
+            const eror = await newinstant.validateSync();
+            if (eror) {
+                res.status(400).send({ message: 'validation eror', eror })
+            } else {
+                const data = await User.findById({
+                    _id: userid
+                });
+                const experience = data.experience[objectid] = req.body
+                await data.save();
+                res.status(201).send({ message: 'edited' })
+            }
+
+        } catch (er) { res.status(501).send({ er }) }
+    },
+
+
+    deletexperience: async (req, res) => {
+        try {
+            const id = req.params.userid;
+            const objectid = req.params.objectid;
+
+            const data = await User.findById({ _id: id });
+            if (data) {
+                const experience = await data.experience;
+                experience.splice(objectid, 1);
+                await data.save();
+                res.status(201).send({message:'experience is deleted'})
+            }
+
+        } catch (er) { throw er }
+    },
 
 }
 
