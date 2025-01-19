@@ -241,6 +241,45 @@ const makeResume = {
         } catch (er) { throw er }
     },
 
+
+    editskill: async (req, res) => {
+        try {
+            const userid = req.params.userid;
+            const objectid = req.params.objectid;
+            const dat = await req.body;
+            const newinstant = await new skill(dat);
+            const eror = await newinstant.validateSync();
+            if (eror) {
+                res.status(400).send({ message: 'validation eror', eror })
+            } else {
+                const data = await User.findById({
+                    _id: userid
+                });
+                 data.skills[objectid] = req.body
+                await data.save();
+                res.status(201).send({ message: 'edited' })
+            }
+
+        } catch (er) { res.status(501).send({ er }) }
+    },
+
+
+    deleteskill: async (req, res) => {
+        try {
+            const id = req.params.userid;
+            const objectid = req.params.objectid;
+
+            const data = await User.findById({ _id: id });
+            if (data) {
+                const skil = await data.skills;
+                skil.splice(objectid, 1);
+                await data.save();
+                res.status(201).send({message:'skill is deleted'})
+            }
+
+        } catch (er) { throw er }
+    },
+
 }
 
 module.exports = makeResume;
