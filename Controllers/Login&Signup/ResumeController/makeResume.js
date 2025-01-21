@@ -280,6 +280,27 @@ const makeResume = {
         } catch (er) { throw er }
     },
 
+
+    updateAllData:async(req,res)=>{
+        try{
+            const id = req.params.userid;
+            const updatedata = await req.body;
+            console.log(updatedata);
+            
+           const updated = await User.findById({_id:id});
+           if(updated){
+            updated.skills = updatedata.skills;
+            updated.experience = updatedata.experience;
+            updated.education = updatedata.education;
+            updated.personalinfo = updatedata.personalinfo
+            await updated.save()
+            res.status(201).send({message:'updated'})
+           }
+
+
+        }catch(er){throw er}
+    }
+
 }
 
 module.exports = makeResume;
