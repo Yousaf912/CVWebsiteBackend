@@ -8,7 +8,7 @@ const port = process.env.SERVER_PORT;
 const cors = require("cors");
 
 const corsoption ={
-    origin : 'https://cvmaker-inky.vercel.app',
+    origin : `https://cvmaker-inky.vercel.app || http://localhost:5173`,
     methods:['POST','PUT','DELETE','GET'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
