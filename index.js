@@ -6,12 +6,11 @@ const App = express();
 const mongourl = process.env.MONGO_URL;
 const port = process.env.SERVER_PORT;
 const cors = require("cors");
-const local = ' http://localhost:5173/'
-const deploy = 'https://cvmaker-inky.vercel.app';
 
-const corsoption = {
-    origin: deploy || local,
-    methods: ['POST', 'PUT', 'DELETE', 'GET'],
+
+const corsoption ={
+    origin : 'https://cvmaker-inky.vercel.app',
+    methods:['POST','PUT','DELETE','GET'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
     optionsSuccessStatus: 200,
@@ -22,15 +21,15 @@ App.use(cors(corsoption))
 App.use(express.json())
 App.use('/', router)
 
-mongoose.connect(mongourl).then(() => {
+mongoose.connect(mongourl).then(()=>{
     console.log('mongodb is connected');
     App.listen(3000, () => {
         console.log(`app is running on this port 3000`)
-
+    
     })
-}).catch((er) => {
+}).catch((er)=>{
     console.log(er);
-
+    
 })
 
 
