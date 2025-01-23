@@ -60,10 +60,7 @@ const PersonalInfoSchema = new mongoose.Schema({
         required:[true,'Description is required'],
         maxlength:[300,'discription can not be more than 300']
     },
-    img:{
-        type: String,
-        required:[true,'please select img']
-    }
+   
 });
 
 const personalinfosch = mongoose.model('personalinfo',PersonalInfoSchema);
