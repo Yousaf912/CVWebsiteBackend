@@ -10,6 +10,7 @@ const cors = require("cors");
 
 const corsoption ={
     origin : 'https://cvmaker-inky.vercel.app',
+    // origin : 'http://localhost:5173',
     methods:['POST','PUT','DELETE','GET'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
